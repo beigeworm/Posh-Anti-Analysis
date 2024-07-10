@@ -2,6 +2,7 @@
 
 SYNOPSIS
 Uses various methods to determine if the machine is a VM or if debugging or system monitoring software is running.
+Will only run further code if the environment passes the anti-analysis test
 
 USAGE
 1. Add Your code or execution at the END of the script below.
