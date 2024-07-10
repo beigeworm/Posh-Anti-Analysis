@@ -112,9 +112,7 @@ Loop
 }
 Start-Job -ScriptBlock $MasterJOB -Name Monitor
 
-# --------------------------------------------------------------------------------------------------------------------
-# ADD YOUR SCRIPT BELOW HERE
-# --------------------------------------------------------------------------------------------------------------------
+# ============ ADD YOUR OWN CODE BELOW HERE =================== ADD YOUR OWN CODE BELOW HERE ====================== ADD YOUR OWN CODE BELOW HERE ==============
 
 
 # EXAMPLE CODE
