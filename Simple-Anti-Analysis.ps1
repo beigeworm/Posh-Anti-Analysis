@@ -1,4 +1,4 @@
-﻿
+
 <# ============================ Simple Anti Analysis ===============================
 
 SYNOPSIS
@@ -49,45 +49,11 @@ $isDebuggerPresent = [DebuggerCheck]::IsDebuggerPresent()
 $isRemoteDebuggerPresent = $false
 [DebuggerCheck]::CheckRemoteDebuggerPresent([System.Diagnostics.Process]::GetCurrentProcess().Handle, [ref]$isRemoteDebuggerPresent) | Out-Null
 
-$commonResolutions = @(
-    "1280x720",
-    "1280x800",
-    "1280x1024",
-    "1366x768",
-    "1440x900",
-    "1600x900",
-    "1680x1050",
-    "1920x1080",
-    "1920x1200",
-    "2560x1440",
-    "3840x2160"
-)
+$commonResolutions = @("1280x720","1280x800","1280x1024","1366x768","1440x900","1600x900","1680x1050","1920x1080","1920x1200","2560x1440","3840x2160")
 
-$vmChecks = @{
-    "VMwareTools" = "HKLM:\SOFTWARE\VMware, Inc.\VMware Tools";
-    "VMwareMouseDriver" = "C:\WINDOWS\system32\drivers\vmmouse.sys";
-    "VMwareSharedFoldersDriver" = "C:\WINDOWS\system32\drivers\vmhgfs.sys";
-    "SystemBiosVersion" = "HKLM:\HARDWARE\Description\System\SystemBiosVersion";
-    "VBoxGuestAdditions" = "HKLM:\SOFTWARE\Oracle\VirtualBox Guest Additions";
-    "VideoBiosVersion" = "HKLM:\HARDWARE\Description\System\VideoBiosVersion";
-    "VBoxDSDT" = "HKLM:\HARDWARE\ACPI\DSDT\VBOX__";
-    "VBoxFADT" = "HKLM:\HARDWARE\ACPI\FADT\VBOX__";
-    "VBoxRSDT" = "HKLM:\HARDWARE\ACPI\RSDT\VBOX__";
-    "SystemBiosDate" = "HKLM:\HARDWARE\Description\System\SystemBiosDate";
-}
+$vmChecks = @{"VMwareTools" = "HKLM:\SOFTWARE\VMware, Inc.\VMware Tools";"VMwareMouseDriver" = "C:\WINDOWS\system32\drivers\vmmouse.sys";"VMwareSharedFoldersDriver" = "C:\WINDOWS\system32\drivers\vmhgfs.sys";"SystemBiosVersion" = "HKLM:\HARDWARE\Description\System\SystemBiosVersion";"VBoxGuestAdditions" = "HKLM:\SOFTWARE\Oracle\VirtualBox Guest Additions";"VideoBiosVersion" = "HKLM:\HARDWARE\Description\System\VideoBiosVersion";"VBoxDSDT" = "HKLM:\HARDWARE\ACPI\DSDT\VBOX__";"VBoxFADT" = "HKLM:\HARDWARE\ACPI\FADT\VBOX__";"VBoxRSDT" = "HKLM:\HARDWARE\ACPI\RSDT\VBOX__";"SystemBiosDate" = "HKLM:\HARDWARE\Description\System\SystemBiosDate";}
 
-    $taskManagers = @(
-        "taskmgr",       
-        "procmon",
-        "procmon64",     
-        "procexp",
-        "procexp64",     
-        "perfmon",
-        "perfmon64",      
-        "resmon",
-        "resmon64",        
-        "ProcessHacker"   
-    )
+$taskManagers = @("taskmgr","procmon","procmon64","procexp","procexp64","perfmon","perfmon64","resmon","resmon64","ProcessHacker")
 
 $currentResolution = "$Width`x$Height"
 
@@ -142,13 +108,7 @@ else {
     # ---------------- RUN YOUR CODE HERE ---------------------------
 
     Write-Host "PASS" -ForegroundColor Green
+    sleep 1
  
- 
- 
- 
- 
- 
- 
-    
     
  }
