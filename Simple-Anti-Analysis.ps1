@@ -1,4 +1,3 @@
-
 <# ============================ Simple Anti Analysis ===============================
 
 SYNOPSIS
@@ -94,21 +93,20 @@ Write-Host "Environment Test.. " -NoNewline
 if ($isVM) {   
     Write-Host "FAIL!" -ForegroundColor White -BackgroundColor Red
     Write-Host "The environment could be a VM." -ForegroundColor Red
-    # exit
+    exit
 
 }
 elseif ($isDebug) {
     Write-Host "FAIL!" -ForegroundColor White -BackgroundColor Red
     Write-Host "Debugging / Monitoring software is Running." -ForegroundColor Red
-    # exit
+    exit
 
 }
 else {
-
-    # ---------------- RUN YOUR CODE HERE ---------------------------
-
     Write-Host "PASS" -ForegroundColor Green
-    sleep 1
- 
-    
+    $pass = $true 
  }
+
+# ============ ADD YOUR OWN CODE BELOW HERE =================== ADD YOUR OWN CODE BELOW HERE ====================== ADD YOUR OWN CODE BELOW HERE ==============
+
+ sleep 2
