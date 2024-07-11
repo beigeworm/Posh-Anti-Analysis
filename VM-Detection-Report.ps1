@@ -1,4 +1,3 @@
-﻿
 <# ============================ VIRTUAL MACHINE + DEBUGGING AND MONITORING DETECTION REPORT ===============================
 
 SYNOPSIS
@@ -13,18 +12,21 @@ USAGE
 
 $Host.UI.RawUI.BackgroundColor = "Black"
 Clear-Host
-[Console]::SetWindowSize(75, 30)
+[Console]::SetWindowSize(75, 40)
 [Console]::Title = "VM and Anti-Analysis Detection"
 
 $log = "VMdetect.log"
 $isVMHost = $false
 $isVM = $false
 
+Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.Application]::EnableVisualStyles()
+
 Write-Host "VM and Anti-Analysis software Detection by @beigeworm" -ForegroundColor White -BackgroundColor Green 
 "VM and Anti-Analysis software Detection by @beigeworm `n" | Out-File -FilePath $log
 
 function Test-VMHostNetwork {
-    Write-Host "`n=== Virtual Machine Host ===" -ForegroundColor Gray
+    Write-Host "=== Virtual Machine Host ===" -ForegroundColor Gray
 
     # Check VMWARE network adapter (HOST)
     Write-Host "VMware Network Adapters.. " -NoNewline
@@ -408,18 +410,110 @@ function Verdict{
     
 }
 
-# Run the functions
+function Test-Hardware{
+
+    Write-Host "`n=== System Hardware + Input ===" -ForegroundColor Gray
+
+    # Check operating system uptime
+    Write-Host "Operating System Uptime.. " -NoNewline
+    $lastBootUpTime = (Get-WmiObject Win32_OperatingSystem).LastBootUpTime
+    $uptime = (Get-Date) - ([System.Management.ManagementDateTimeConverter]::ToDateTime($lastBootUpTime))
+    $uptimeCheck = $uptime.TotalHours -gt 1
+    $uptimeHours = [math]::Floor($uptime.TotalHours)
+
+    if ($uptimeCheck) {
+        Write-Host "$uptimeHours Hrs" -ForegroundColor Green
+        "Operating System Uptime: $uptimeHours Hrs" | Out-File -FilePath $log -Append
+    } else {
+        Write-Host "$uptimeHours Hrs" -ForegroundColor White -BackgroundColor Red
+        "Operating System Uptime: $uptimeHours Hrs" | Out-File -FilePath $log -Append
+    }
+    
+    # Check if disk size is <= 60GB using WMI
+    Write-Host "Hard Disk Size.. " -NoNewline
+    $diskSize = (Get-WmiObject Win32_LogicalDisk -Filter "DeviceID='C:'").Size / 1GB
+    $roundedDiskSize = [math]::Floor($diskSize)
+    $diskSizeCheck = $diskSize -gt 64
+
+    if ($diskSizeCheck) {
+        Write-Host "$roundedDiskSize GB" -ForegroundColor Green
+        "HDD Size: $roundedDiskSize GB" | Out-File -FilePath $log -Append
+    } else {
+        Write-Host "$roundedDiskSize GB" -ForegroundColor White -BackgroundColor Red
+        "HDD Size: $roundedDiskSize GB" | Out-File -FilePath $log -Append
+    }
+
+    # Check physical memory size
+    Write-Host "Total Physical Memory.. " -NoNewline
+    $memory = (Get-WmiObject Win32_ComputerSystem).TotalPhysicalMemory / 1GB
+    $roundedMemory = [math]::Floor($memory)
+    $memoryCheck = $memory -gt 1
+    
+    if ($memoryCheck) {
+        Write-Host "$roundedMemory GB" -ForegroundColor Green
+        "Total Physical Memory: $roundedMemory GB" | Out-File -FilePath $log -Append
+    } else {
+        Write-Host "$roundedMemory GB" -ForegroundColor White -BackgroundColor Red
+        "Total Physical Memory: $roundedMemory GB" | Out-File -FilePath $log -Append
+    }
+
+    # Check core count
+    Write-Host "CPU Core Count.. " -NoNewline
+    $coreCount = (Get-WmiObject Win32_Processor).NumberOfCores
+    $coreCheck = $coreCount -gt 2
+
+    if ($coreCheck) {
+        Write-Host "$coreCount" -ForegroundColor Green
+        "Number Of Cores: $coreCount" | Out-File -FilePath $log -Append
+    } else {
+        Write-Host "$coreCount" -ForegroundColor White -BackgroundColor Red
+        "Number Of Cores: $coreCount" | Out-File -FilePath $log -Append
+    }
+
+    # Check if mouse is present
+    Write-Host "Mouse Presence.. " -NoNewline
+    $mousePresent = [System.Windows.Forms.SystemInformation]::MousePresent
+    
+    if ($mousePresent) {
+        Write-Host "OK" -ForegroundColor Green
+        "Mouse Input Detected" | Out-File -FilePath $log -Append
+    } else {
+        Write-Host "Not Detected!" -ForegroundColor White -BackgroundColor Red
+        "Mouse Input Not Detected!" | Out-File -FilePath $log -Append
+    }
+    
+    # Check if Wscript is allowed
+    try{
+        Write-Host "Wscript + Dialog Boxes.. " -NoNewline
+        $testbox = (New-Object -ComObject Wscript.Shell).Popup("Confirm You Are Not A Robot",3,"Captcha",0x0)
+        if ($testbox -eq 1){
+            Write-Host "OK" -ForegroundColor Green -NoNewline
+            Write-Host " (Clicked)" -ForegroundColor DarkGray
+            "Dialog Box Clicked" | Out-File -FilePath $log -Append
+        }
+        else{
+            Write-Host "OK" -ForegroundColor Yellow -NoNewline
+            Write-Host " (Not Clicked)" -ForegroundColor DarkGray
+            "Dialog Box Not Clicked!" | Out-File -FilePath $log -Append
+        }
+    }
+    catch{
+        Write-Host "Not Allowed!" -ForegroundColor White -BackgroundColor Red
+        "Dialog Box Not Allowed!" | Out-File -FilePath $log -Append    
+    }
+}
+
+# ------------  RUN ALL THE FUNCTIONS  -------------
+Write-Host "`n"
 Test-VMHostNetwork
 Test-VirtualMachine
 Test-Screensize
 Verdict
 Test-Debugger
-Write-Host "`n"
+Test-Hardware
+# --------------------------------------------------
+
 pause
-
-
-<# Example to run or exit
-
 if ($isVM) {
     exit
 } 
@@ -427,5 +521,4 @@ else {
     Write-Host "VM Check Passed" -ForegroundColor Green
 }
 
-
-#>
+# ============ ADD YOUR OWN CODE BELOW HERE =================== ADD YOUR OWN CODE BELOW HERE ====================== ADD YOUR OWN CODE BELOW HERE ==============
