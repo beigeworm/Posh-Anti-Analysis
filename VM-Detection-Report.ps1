@@ -15,7 +15,7 @@ Clear-Host
 [Console]::SetWindowSize(75, 40)
 [Console]::Title = "VM and Anti-Analysis Detection"
 
-$log = "VMdetect.log"
+$log = "$env:temp\VMdetect.log"
 $isVMHost = $false
 $isVM = $false
 
