@@ -1,5 +1,5 @@
 
-powerShellScript = "C:\Users\leoma\Desktop\testrun.ps1"
+powerShellScript = "C:\Users\....."
 
 taskManagers = Array("taskmgr.exe","procmon.exe","procmon64.exe","procexp.exe","procexp64.exe","perfmon.exe","perfmon64.exe","resmon.exe","resmon64.exe","ProcessHacker.exe")
 
